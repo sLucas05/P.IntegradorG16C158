@@ -16,19 +16,21 @@ public class MainApp {
 		int Puntos = 0;
 
 		PrintWriter CSVwrite = null;
-		try {
-			CSVwrite = new PrintWriter(new FileWriter(pathPartidos));
-			CSVwrite.print("Argentina" + Separador + (int) (Math.random() * 3 + 1) + Separador
-					+ (int) (Math.random() * 3 + 1) + Separador + "Brasil" + "\n");
-			CSVwrite.print("Uruguay" + Separador + (int) (Math.random() * 3 + 1) + Separador
-					+ (int) (Math.random() * 3 + 1) + Separador + "Chile" + "\n");
-		} catch (IOException x) {
-			x.printStackTrace();
-		} finally {
-			if (CSVwrite != null) {
-				CSVwrite.close();
-			}
-		}
+        Random random = new Random(); // crea un generador de números aleatorios
+
+        try {
+            CSVwrite = new PrintWriter(new FileWriter(pathPartidos));
+            CSVwrite.print("Argentina" + Separador + (random.nextInt(3) + 1) + Separador // genera un número aleatorio entre 1 y 3
+                    + (random.nextInt(3) + 1) + Separador + "Brasil" + "\n");
+            CSVwrite.print("Uruguay" + Separador + (random.nextInt(3) + 1) + Separador // genera un número aleatorio entre 1 y 3
+                    + (random.nextInt(3) + 1) + Separador + "Chile" + "\n");
+        } catch (IOException x) {
+            x.printStackTrace();
+        } finally {
+            if (CSVwrite != null) {
+                CSVwrite.close();
+            }
+        }
 
 		System.out.println("Argentina Programa 4.0 - Desarrollador Java Inicial (UTN)");
 		System.out.println("Proyecto Integrador (Predicciones Deportivas)");
