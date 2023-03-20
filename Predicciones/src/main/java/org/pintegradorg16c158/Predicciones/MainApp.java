@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Scanner;
 import com.opencsv.bean.CsvToBeanBuilder;
+import java.util.Random;
+
 public class MainApp {
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
