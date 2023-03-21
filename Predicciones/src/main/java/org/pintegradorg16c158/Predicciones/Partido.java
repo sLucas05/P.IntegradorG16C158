@@ -1,24 +1,16 @@
 package org.pintegradorg16c158.Predicciones;
 
 import java.util.Random;
-import com.opencsv.bean.CsvBindByPosition;
 
 public class Partido {
 
-    @CsvBindByPosition(position = 0)
     private String equipo1;
-    @CsvBindByPosition(position = 1)
     private int golesEquipo1;
-    @CsvBindByPosition(position = 2)
     private String empate;
-    @CsvBindByPosition(position = 3)
     private int golesEquipo2;
-    @CsvBindByPosition(position = 4)
     private String equipo2;
 
-    
-
-        public String getEmpate() {
+    public String getEmpate() {
         return empate;
     }
 
@@ -33,8 +25,7 @@ public class Partido {
     public void setEquipoGanador(String equipoGanador) {
         this.equipoGanador = equipoGanador;
     }
-    
-    
+
     private String equipoGanador;
 
     public String getGanador() {
