@@ -1,22 +1,34 @@
 package org.pintegradorg16c158.Predicciones;
 import java.time.LocalDate;
 import com.opencsv.bean.CsvBindByPosition;
+
 public class Columnas {
+    
 	@CsvBindByPosition(position = 0)
-	private String EquipoA;
+	private String Partidos;
 	@CsvBindByPosition(position = 1)
 	private String GolesA;
 	@CsvBindByPosition(position = 3)
-	private LocalDate EquipoB;
+	private String EquipoB;
 	@CsvBindByPosition(position = 2)
+        private String Empate;
+
+    public String getEmpate() {
+        return Empate;
+    }
+
+    public void setEmpate(String Empate) {
+        this.Empate = Empate;
+    }
+        @CsvBindByPosition(position = 4)
 	private Integer GolesB;
 
-	public String getEquipoA() {
-		return EquipoA;
+	public String getPartidos() {
+		return Partidos;
 	}
 	
 	public void setEquipoA(String equipoA) {
-		EquipoA = equipoA;
+		Partidos = equipoA;
 	}
 
 	public String getGolesA() {
@@ -27,11 +39,11 @@ public class Columnas {
 		GolesA = golesA;
 	}
 
-	public LocalDate getEquipoB() {
+	public String getEquipoB() {
 		return EquipoB;
 	}
 
-	public void setEquipoB(LocalDate equipoB) {
+	public void setEquipoB(String equipoB) {
 		EquipoB = equipoB;
 	}
 
