@@ -1,15 +1,13 @@
 package org.pintegradorg16c158.Predicciones;
-
 import java.util.Random;
-
 public class Partido {
-
+	
     private String equipo1;
     private int golesEquipo1;
     private String empate;
     private int golesEquipo2;
     private String equipo2;
-
+    
     public String getEmpate() {
         return empate;
     }
@@ -74,18 +72,18 @@ public class Partido {
     }
 
     public String jugarPartido(String equipo1, String equipo2) {
-
+    	
         this.equipo1 = equipo1;
         this.equipo2 = equipo2;
-
+        
         if (equipo1 == null || equipo2 == null) {
             System.out.println("No se puede jugar un partido sin dos equipos");
             return null;
         }
 
-        Random random = new Random(); // crea un generador de números aleatorios
-        int golesA = (random.nextInt(3) + 1);
-        int golesB = (random.nextInt(3) + 1);
+        Random random = new Random();
+        int golesA = (random.nextInt(4));
+        int golesB = (random.nextInt(4));
 
         this.golesEquipo1 = golesA;
         this.golesEquipo2 = golesB;
@@ -97,15 +95,13 @@ public class Partido {
         } else {
             equipoGanador = "Empate";
         }
-
+        
         try {
             System.out.println("\nEl partido se esta jugando...");
             Thread.sleep(3000);
             System.out.println("Partido finalizado");
         } catch (InterruptedException ex) {
         }
-
         return equipoGanador;
     }
-
 }
