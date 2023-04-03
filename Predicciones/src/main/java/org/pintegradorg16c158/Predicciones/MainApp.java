@@ -46,10 +46,11 @@ public class MainApp {
 		String equipo1, equipo2;
 		String Prediccion = "";
 		String Separador = ",";
-		String Seguir = "Si";
 		String Jugar = "1";
+
 		String pathPartidos = args[0];
 		String pathPrediccion = args[1];
+
 		FileWriter PuntajeClear = new FileWriter("Puntajes.txt");
 		PuntajeClear.write("");
 		PuntajeClear.close();
@@ -59,24 +60,30 @@ public class MainApp {
 		System.out.println("Comision 158 Grupo 16 (Entrega 2)");
 		System.out.println("\nLos valores de prediccion son:");
 		System.out.println("G1 (Gana el Equipo 1) / E (Empate) / G2 (Gana el Equipo 2)");
-		System.out.println("\nIniciar programa de Predicciones Deportivas (press enter)...");
+		System.out.println("\nIniciar programa de Predicciones Deportivas 'enter'...");
 		scanner.nextLine();
+		System.out.println("¿Cuantos partidos desea predecir?");
+		String Parts = scanner.nextLine();
+		System.out.println("¿Cuantos partidos conformaran una ronda?");
+		String PartxRond = scanner.nextLine();
+		System.out.println("");
+
+		EscritorPart = new PrintWriter(new FileWriter(pathPartidos));
+		EscritorPredi = new PrintWriter(new FileWriter(pathPrediccion));
 
 		while (Jugar.equalsIgnoreCase("1")) {
 			Jugar = "";
 			System.out.println("Escriba su nombre de usuario...");
 			String NombreUsuario = scanner.nextLine();
 			Nombre = new Usuario(NombreUsuario);
-			System.out.println("\n¿Cuantos partidos desea que se jueguen por ronda?");
-			String PartxRond = scanner.nextLine();
 
 			Random random = new Random();
-			EscritorPart = new PrintWriter(new FileWriter(pathPartidos));
-			EscritorPredi = new PrintWriter(new FileWriter(pathPrediccion));
-			int Puntos = 0;
+			double Puntos = 0.00;
+			int Acerto = 0;
 			int PartNum = 1;
 			int RondNum = 1;
-			while (Seguir.equalsIgnoreCase("Si")) {
+			int PartTotal = 1;
+			while (PartTotal < Integer.parseInt(Parts) + 1) {
 				int randomA = (random.nextInt(8));
 				int randomB = (random.nextInt(8) + 8);
 				equipo1 = equipos.get(randomA);
@@ -89,19 +96,23 @@ public class MainApp {
 					Partido partido = new Partido(equipo1, equipo2);
 					String ganador = partido.jugarPartido(equipo1, equipo2);
 					EscritorPart.print(equipo1 + Separador + partido.getGolesEquipo1() + Separador
-							+ partido.getGolesEquipo2() + Separador + equipo2 + "\n");
+							+ partido.getGolesEquipo2() + Separador + equipo2 + Separador + "[Partido " + PartNum
+							+ Separador + "Ronda " + RondNum + Separador + NombreUsuario + "]\n");
 					if (Prediccion.equalsIgnoreCase("G1")) {
-						EscritorPredi.print(equipo1 + Separador + "X" + Separador + " " + Separador + " " + Separador
-								+ equipo2 + "\n");
+						EscritorPredi.print("[" + NombreUsuario + "]" + Separador + equipo1 + Separador + "X"
+								+ Separador + " " + Separador + " " + Separador + equipo2 + "\n");
 					} else if (Prediccion.equalsIgnoreCase("G2")) {
-						EscritorPredi.print(equipo1 + Separador + " " + Separador + " " + Separador + "X" + Separador
-								+ equipo2 + "\n");
+						EscritorPredi.print("[" + NombreUsuario + "]" + Separador + equipo1 + Separador + " "
+								+ Separador + " " + Separador + "X" + Separador + equipo2 + "\n");
 					} else if (Prediccion.equalsIgnoreCase("E")) {
-						EscritorPredi.print(equipo1 + Separador + " " + Separador + "X" + Separador + " " + Separador
-								+ equipo2 + "\n");
+						EscritorPredi.print("[" + NombreUsuario + "]" + Separador + equipo1 + Separador + " "
+								+ Separador + "X" + Separador + " " + Separador + equipo2 + "\n");
 					}
-					System.out.println("\n¿Desea predecir otro partido? (SI/NO)");
-					Seguir = scanner.nextLine();
+					PartTotal++;
+					if (PartTotal < Integer.parseInt(Parts) + 1) {
+						System.out.println("\nSiguiente partido 'enter'...");
+						scanner.nextLine();
+					}
 					if (PartNum == Integer.parseInt(PartxRond)) {
 						PartNum = 1;
 						RondNum++;
@@ -116,42 +127,50 @@ public class MainApp {
 
 			EscritorPart.close();
 			EscritorPredi.close();
+			EscritorPart = new PrintWriter(new FileWriter(pathPartidos, true));
+			EscritorPredi = new PrintWriter(new FileWriter(pathPrediccion, true));
 
 			try {
 				CSVReader PartidosRead = new CSVReader(new FileReader(pathPartidos));
 				try {
 					List<String[]> filas = PartidosRead.readAll();
 					for (String[] fila : filas) {
-						equipo1 = fila[0];
-						equipo2 = fila[3];
-						int golesA = Integer.parseInt(fila[1]);
-						int golesB = Integer.parseInt(fila[2]);
-						Partido match = new Partido(equipo1, equipo2);
-						match.setGolesEquipo1(golesA);
-						match.setGolesEquipo2(golesB);
-						{
-							if (golesA > golesB) {
-								System.out.println("\n[" + match.getGolesEquipo1() + "]" + match.getEquipo1() + " - "
-										+ match.getEquipo2() + "[" + match.getGolesEquipo2() + "] // Gano ["
-										+ match.getEquipo1() + "]");
-								if (Prediccion.equalsIgnoreCase("g1")) {
-									System.out.println("Tu prediccion fue correcta, +1 punto.");
-									Puntos++;
-								}
-							} else if (golesB > golesA) {
-								System.out.println("\n[" + match.getGolesEquipo1() + "]" + match.getEquipo1() + " - "
-										+ match.getEquipo2() + "[" + match.getGolesEquipo2() + "] // Gano ["
-										+ match.getEquipo2() + "]");
-								if (Prediccion.equalsIgnoreCase("g2")) {
-									System.out.println("Tu prediccion fue correcta, +1 punto.");
-									Puntos++;
-								}
-							} else if (golesB == golesA) {
-								System.out.println("\n[" + match.getGolesEquipo1() + "]" + match.getEquipo1() + " - "
-										+ match.getEquipo2() + "[" + match.getGolesEquipo2() + "] // Empate");
-								if (Prediccion.equalsIgnoreCase("e")) {
-									System.out.println("Tu prediccion fue correcta, +1 punto.");
-									Puntos++;
+						if (fila[6].equalsIgnoreCase(NombreUsuario + "]")) {
+							equipo1 = fila[0];
+							equipo2 = fila[3];
+							int golesA = Integer.parseInt(fila[1]);
+							int golesB = Integer.parseInt(fila[2]);
+							Partido match = new Partido(equipo1, equipo2);
+							match.setGolesEquipo1(golesA);
+							match.setGolesEquipo2(golesB);
+							{
+								if (golesA > golesB) {
+									System.out.println("\n[" + match.getGolesEquipo1() + "]" + match.getEquipo1()
+											+ " - " + match.getEquipo2() + "[" + match.getGolesEquipo2() + "] // Gano ["
+											+ match.getEquipo1() + "]");
+									if (Prediccion.equalsIgnoreCase("g1")) {
+										System.out.println("Tu prediccion fue correcta, +1 punto.");
+										Puntos = Puntos + 1.50;
+										Acerto++;
+									}
+								} else if (golesB > golesA) {
+									System.out.println("\n[" + match.getGolesEquipo1() + "]" + match.getEquipo1()
+											+ " - " + match.getEquipo2() + "[" + match.getGolesEquipo2() + "] // Gano ["
+											+ match.getEquipo2() + "]");
+									if (Prediccion.equalsIgnoreCase("g2")) {
+										System.out.println("Tu prediccion fue correcta, +1 punto.");
+										Puntos = Puntos + 1.50;
+										Acerto++;
+									}
+								} else if (golesB == golesA) {
+									System.out.println("\n[" + match.getGolesEquipo1() + "]" + match.getEquipo1()
+											+ " - " + match.getEquipo2() + "[" + match.getGolesEquipo2()
+											+ "] // Empate");
+									if (Prediccion.equalsIgnoreCase("e")) {
+										System.out.println("Tu prediccion fue correcta, +1 punto.");
+										Puntos = Puntos + 1.50;
+										Acerto++;
+									}
 								}
 							}
 						}
@@ -168,14 +187,16 @@ public class MainApp {
 					+ ")\n---------------------------\n[1] Jugar con otro Usuario\n[2] Ver tabla de puntajes\n[3] Finalizar programa");
 			FileWriter Puntajes = new FileWriter("Puntajes.txt", true);
 			BufferedWriter EscritorPuntajes = new BufferedWriter(Puntajes);
-			EscritorPuntajes.write("[Usuario]: " + Nombre.getNombre() + "\n[Puntos]: " + Puntos + "\n\n");
+			EscritorPuntajes.write("[Usuario]: " + Nombre.getNombre() + "\n[Puntos]: " + Puntos
+					+ "\n[Predicciones Correctas]: " + Acerto + "\n\n");
 			EscritorPuntajes.close();
 			Jugar = scanner.nextLine();
 			if (Jugar.equalsIgnoreCase("1")) {
-				Seguir = "Si";
 				Puntos = 0;
+				Acerto = 0;
 				PartNum = 1;
 				RondNum = 1;
+				PartTotal = 1;
 				System.out.println("");
 			} else if (Jugar.equalsIgnoreCase("2")) {
 				try {
