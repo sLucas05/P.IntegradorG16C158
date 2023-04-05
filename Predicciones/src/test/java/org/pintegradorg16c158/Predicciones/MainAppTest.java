@@ -4,17 +4,18 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class MainAppTest {
 
     @Test
     public void verificoElNumeroCorrectoDeCamposYCantidadDeGolesSeaEntero() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("C:/Users/Usuario/Documents/entrega2/P.IntegradorG16C158/Predicciones/src/main/resources/Partidos.csv"));
+       InputStream is = getClass().getResourceAsStream("/Partidos.csv");
+       BufferedReader br = new BufferedReader(new InputStreamReader(is));
         String linea;
         int NumLinea = 0;
         while ((linea = br.readLine()) != null) {
