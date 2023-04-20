@@ -3,7 +3,7 @@ El programa de predicciones sobre los resultados de partidos es un proyecto inte
 
 [Integrantes]
 Lucas Saenz
-Diego Elias Gomez
+\nDiego Elias Gomez
 Leonardo Gonzalez
 Enzo Leonardo Rojas
 Franco Emmanuel Cardoso
