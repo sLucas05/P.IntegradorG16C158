@@ -1,1 +1,0 @@
-Database=jdbc:mysql://localhost:3306/utn,Partidos=10,PartXRond=2,RondXFas=3,PtsAcert=1,PtsAcertG=0.25,PtsAcertR=0.50,PtsAcertF=0.75,User=root,Password=utn4.0
